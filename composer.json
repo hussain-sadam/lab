@@ -17,9 +17,12 @@
     "require": {
         "composer/installers": "^2.0",
         "drupal/admin_toolbar": "^3.3",
+        "drupal/bootstrap": "^3.27",
+        "drupal/ckeditor": "^1.0",
         "drupal/core-composer-scaffold": "^10.0",
         "drupal/core-project-message": "^10.0",
         "drupal/core-recommended": "^10.0",
+        "drupal/css_editor": "^2.0",
         "drupal/devel": "^5.0",
         "drush/drush": "^11.5"
     },
@@ -93,6 +96,15 @@
                 "  * Remove the plugin that prints this message:",
                 "      composer remove drupal/core-project-message"
             ]
+        },
+        "patchLevel": {
+            "drupal/core": "-p2"
+        },
+        "enable-patching": "true",
+        "patches": {
+            "drupal/ckeditor": {
+                "Working for 8.4 ckeditor patch?": "https://www.drupal.org/files/issues/2023-03-09/3273755-62--9.5.x-backport.patch"
+            }
         }
     }
 }
