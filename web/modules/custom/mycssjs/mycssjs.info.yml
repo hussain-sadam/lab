@@ -1,0 +1,7 @@
+name: Custom CSS JS
+type: module
+description: Adds CSS and JS to a specific page.
+version: 1.0
+core_version_requirement: ^9 || ^10
+dependencies:
+  - drupal:ckeditor5

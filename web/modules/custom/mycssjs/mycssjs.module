@@ -1,0 +1,33 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function mycssjs_form_node_form_alter(&$form, FormStateInterface $form_state) {
+  // Add CSS file.
+  $form['#attached']['library'][] = 'mycssjs/node_edit_page_assets';
+}
+
+/**
+ * Implements hook_library_info_build().
+ */
+function mycssjs_library_info_build() {
+  $libraries = [];
+
+  // Add CSS file.
+  $libraries['mycssjs/node_edit_page_assets'] = [
+    'version' => '1.x',
+    'css' => [
+      'theme' => [
+        'css/custom.css' => [],
+      ],
+    ],
+    'js' => [
+      'js/custom.js' => [],
+    ],
+  ];
+
+  return $libraries;
+}

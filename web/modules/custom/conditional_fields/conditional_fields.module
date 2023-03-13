@@ -1,0 +1,59 @@
+<?php
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\InvokeCommand;
+
+/**
+ * Implements hook_form_alter().
+ */
+function conditional_fields_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+      // Use jQuery to display an alert message when the AJAX call is made.
+
+  // Check if the form is for the 'patient' content type.
+  if ($form_id == 'node_patient_form') {
+    // Add an AJAX callback to the 'parent test' taxonomy term reference field.
+    $form['field_parent_test']['widget'][0]['#ajax'] = [
+      'callback' => 'conditional_fields_load_price',
+      'event' => 'autocompleteclose',
+      'wrapper' => 'edit-field-price-wrapper',
+      'progress' => [
+        'type' => 'throbber',
+        'message' => t('Loading price field...'),
+      ],
+    ];
+    // Add an empty 'price' field to the 'patient' content type.
+    $form['field_price'] = [
+      '#type' => 'textfield',
+      '#title' => t('Price'),
+      '#prefix' => '<div id="edit-field-price-wrapper">',
+      '#suffix' => '</div>',
+      '#attributes' => ['readonly' => 'readonly'],
+    ];
+  }
+}
+
+/**
+ * AJAX callback to load the price field.
+ */
+function conditional_fields_load_price(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+    $command = new InvokeCommand(NULL, 'alert', ['Hello, world!']);
+    $message = 'AJAX call made!';
+    $script = "jQuery('<div>').attr('class', 'messages').html('<div class=\"alert alert-success\">$message</div>').appendTo('.help');";
+    $response = new AjaxResponse();
+    $response->addCommand(new InvokeCommand(NULL, 'eval', [$script]));
+  // Get the selected taxonomy term.
+  $input = $form_state->getUserInput();
+  $tid = $input['field_parent_test'][0]['target_id'];
+
+  if ($tid) {
+    // Load the taxonomy term.
+    $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tid);
+
+    // Load the 'price' field from the 'test' vocabulary.
+    $price_field = $term->get('field_price')->getValue();
+
+    // Set the value of the 'price' field to the price value.
+    $form['field_price']['#value'] = $price_field[0]['value'];
+  }
+  $form['field_price']['#value'] = 123;
+  return $form['field_price'];
+}
