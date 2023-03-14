@@ -1,0 +1,7 @@
+conditional_fields.form:
+  path: '/conditional-fields'
+  defaults:
+    _form: '\Drupal\conditional_fields\Form\ConditionalFieldsForm'
+    _title: 'Conditional Fields'
+  requirements:
+    _permission: 'access content'
