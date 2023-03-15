@@ -1,5 +1,0 @@
-name: 'Conditional Fields'
-type: module
-description: 'Loads a conditional field for a taxonomy term reference field on a content type form.'
-core_version_requirement: ^10
-package: Custom

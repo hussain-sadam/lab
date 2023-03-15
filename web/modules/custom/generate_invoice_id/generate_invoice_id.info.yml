@@ -1,0 +1,5 @@
+name: Generate Invoice ID
+type: module
+description: Alters the title of nodes of the "patient" content type.
+package: Custom
+core_version_requirement: ^8 || ^9 || ^10

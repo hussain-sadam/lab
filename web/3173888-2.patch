@@ -1,0 +1,41 @@
+diff --git a/core/tests/Drupal/KernelTests/Core/Database/QueryTest.php b/core/tests/Drupal/KernelTests/Core/Database/QueryTest.php
+index f568f9d1b4..e1d7c2739f 100644
+--- a/core/tests/Drupal/KernelTests/Core/Database/QueryTest.php
++++ b/core/tests/Drupal/KernelTests/Core/Database/QueryTest.php
+@@ -67,14 +67,14 @@ public function testArrayArgumentsSQLInjection() {
+   public function testConditionOperatorArgumentsSQLInjection() {
+     $injection = "IS NOT NULL) ;INSERT INTO {test} (name) VALUES ('test12345678'); -- ";
+ 
+-    $previous_error_handler = set_error_handler(function ($severity, $message, $filename, $lineno, $context) use (&$previous_error_handler) {
++    $previous_error_handler = set_error_handler(function ($severity, $message, $filename, $lineno) use (&$previous_error_handler) {
+       // Normalize the filename to use UNIX directory separators.
+       if (preg_match('@core/lib/Drupal/Core/Database/Query/Condition.php$@', str_replace(DIRECTORY_SEPARATOR, '/', $filename))) {
+         // Convert errors to exceptions for testing purposes below.
+         throw new \ErrorException($message, 0, $severity, $filename, $lineno);
+       }
+       if ($previous_error_handler) {
+-        return $previous_error_handler($severity, $message, $filename, $lineno, $context);
++        return $previous_error_handler($severity, $message, $filename, $lineno);
+       }
+     });
+     try {
+diff --git a/core/tests/Drupal/Tests/Core/Asset/LibraryDiscoveryTest.php b/core/tests/Drupal/Tests/Core/Asset/LibraryDiscoveryTest.php
+index e4bed4e3a4..dcb3b0f196 100644
+--- a/core/tests/Drupal/Tests/Core/Asset/LibraryDiscoveryTest.php
++++ b/core/tests/Drupal/Tests/Core/Asset/LibraryDiscoveryTest.php
+@@ -103,13 +103,13 @@ public function testGetLibraryByName() {
+    * Tests getting a deprecated library.
+    */
+   public function testAssetLibraryDeprecation() {
+-    $previous_error_handler = set_error_handler(function ($severity, $message, $file, $line, $context) use (&$previous_error_handler) {
++    $previous_error_handler = set_error_handler(function ($severity, $message, $file, $line) use (&$previous_error_handler) {
+       // Convert deprecation error into a catchable exception.
+       if ($severity === E_USER_DEPRECATED) {
+         throw new \ErrorException($message, 0, $severity, $file, $line);
+       }
+       if ($previous_error_handler) {
+-        return $previous_error_handler($severity, $message, $file, $line, $context);
++        return $previous_error_handler($severity, $message, $file, $line);
+       }
+     });
+ 

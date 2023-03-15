@@ -1,0 +1,43 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function generate_invoice_id_form_node_patient_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Hide the node title field.
+  $form['title']['#access'] = FALSE;
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function generate_invoice_id_node_presave(NodeInterface $node) {
+  // Check if the node is of the "patient" content type.
+  if ($node->getType() === 'patient') {
+    // Get the number of nodes created today.
+    $count = generate_invoice_id_get_nodes_today_count('patient');
+    // Set the node title in the format "YYYY-MM-DD-(number of nodes today in content type patient)".
+    $node->setTitle(date('Y-m-d') . '-' . ($count + 1));
+  }
+}
+
+/**
+ * Helper function to get the number of nodes created today for a given content type.
+ *
+ * @param string $type
+ *   The machine name of the content type.
+ *
+ * @return int
+ *   The number of nodes created today.
+ */
+function generate_invoice_id_get_nodes_today_count($type) {
+  $query = \Drupal::entityQuery('node')
+    ->condition('type', $type)
+    ->condition('created', strtotime('today'), '>')
+    ->count()
+    ->accessCheck(TRUE);
+  return $query->execute();
+}
