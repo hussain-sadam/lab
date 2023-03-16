@@ -1,0 +1,17 @@
+<?php
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
+
+/**
+ * Implements hook_entity_access().
+ */
+function restrict_patient_deletion_entity_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'patient' && $operation === 'delete' && !$account->hasPermission('bypass node access')) {
+    return AccessResult::forbidden()->addCacheableDependency($entity);
+  }
+
+  return AccessResult::neutral()->addCacheableDependency($entity);
+}
+
