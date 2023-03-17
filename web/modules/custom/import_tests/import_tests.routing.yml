@@ -1,0 +1,7 @@
+import_tests.import:
+  path: '/import-tests'
+  defaults:
+    _controller: '\Drupal\import_tests\Controller\ImportTestsController::import'
+    _title: 'Import Tests'
+  requirements:
+    _permission: 'access content'

@@ -1,4 +1,4 @@
 name: Restrict Patient Deletion
-description: Restricts the deletion of nodes of type Patient on the "bypass node access" permission.
+description: A user must have permission "bypass node access" to delete patient node.
 type: module
 core_version_requirement: ^10

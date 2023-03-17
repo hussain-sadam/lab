@@ -1,0 +1,55 @@
+<?php
+
+use Drupal\Core\Archiver\Zip;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\taxonomy\Entity\Vocabulary;
+use Drupal\taxonomy\Entity\Term;
+
+/**
+ * Implements hook_menu().
+ */
+function import_tests_import() {
+  $file_system = \Drupal::service('file_system');
+  $files_directory = $file_system->realpath("public://");
+  $file_path = $file_system->realpath('sites/default/files/test.csv');
+
+
+  // Load the taxonomy term storage service.
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+
+  // Load the 'test' vocabulary.
+  $vocabulary = Vocabulary::load('test');
+
+  // Load the CSV file contents.
+  $csv = \Drupal::service('csv');
+  $rows = $csv->parse(file_get_contents($file_path));
+
+  // Loop through each row and create a new taxonomy term.
+  foreach ($rows as $row) {
+    // Extract the term name and price fields.
+    $term_name = $row[0];
+    $price = $row[1];
+
+    // Create a new taxonomy term entity.
+    $term = Term::create([
+      'name' => $term_name,
+      'vid' => $vocabulary->id(),
+      'field_price' => [
+        'value' => $price,
+      ],
+    ]);
+
+    // Save the new taxonomy term.
+    $term->save();
+  }
+
+  // Get the messenger service.
+  $messenger = \Drupal::service('messenger');
+
+  $messenger->addMessage(t('Imported @count taxonomy terms from @file_path.', [
+    '@count' => count($rows),
+    '@file_path' => $file_path,
+  ]));
+}
+

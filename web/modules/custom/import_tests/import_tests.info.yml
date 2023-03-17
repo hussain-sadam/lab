@@ -1,0 +1,8 @@
+name: Import Tests
+type: module
+description: 'Imports taxonomy terms of type "Test" from CSV files.'
+package: Custom
+version: 1.0
+core_version_requirement: ^10
+dependencies:
+  - taxonomy
