@@ -1,0 +1,7 @@
+entities_import.file_upload:
+  path: '/admin/entities-import/upload'
+  defaults:
+    _form:  '\Drupal\entities_import\Form\FileUploadForm'
+    _title: 'File Upload'   
+  requirements:
+    _permission: 'Access Entities Import'

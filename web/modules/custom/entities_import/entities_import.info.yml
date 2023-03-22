@@ -1,0 +1,5 @@
+name: Entities Import
+description: It provides user interface to import data from excel or csv file.
+type: module
+core_version_requirement: ^9 || ^10
+configure: entity.entities_import_type.collection

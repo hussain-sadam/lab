@@ -1,7 +1,7 @@
-import_tests.import:
-  path: '/import-tests'
+import_tests.form:
+  path: '/admin/content/import-tests'
   defaults:
-    _controller: '\Drupal\import_tests\Controller\ImportTestsController::import'
+    _form: '\Drupal\import_tests\Form\ImportTestsForm'
     _title: 'Import Tests'
   requirements:
-    _permission: 'access content'
+    _permission: 'administer site configuration'

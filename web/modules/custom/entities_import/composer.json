@@ -1,0 +1,9 @@
+{
+  "name": "drupal/entities_import",
+  "description": "phpspreadsheet Plugin to read Excel or CSV file.",
+  "type": "drupal-module",
+  "license": "MIT",
+  "require": {
+    "phpoffice/phpspreadsheet": "^1.16"
+  }
+}

@@ -1,0 +1,36 @@
+entities_import.entities_import_type.*:
+  type: config_entity
+  label: 'Entities Import type config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    uuid:
+      type: string    
+    entity_type:
+      type: string
+      label: 'Entity Type'
+    content_type:
+      type: string
+      label: 'Content Type'
+    taxonomy:
+      type: string
+      label: 'Taxonomy'  
+    language_code:
+      type: string
+      label: 'Language Code'  
+    unique_value_fields:
+      type: text
+      label: 'Unique value fields'
+    title:
+      type: string
+      label: 'Title Field Name'
+    file_path:
+      type: string
+      label: 'File field folder path'
+    file:
+      type: file
+      label: 'Excel File'   

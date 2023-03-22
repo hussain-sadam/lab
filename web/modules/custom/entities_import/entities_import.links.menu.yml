@@ -1,0 +1,7 @@
+# Add Entities Import Type menu items definition
+entity.entities_import_type.collection:
+  title: 'Add Entities Import Type'
+  route_name: entity.entities_import_type.collection
+  description: 'List Entities Import Type'
+  parent: system.admin_structure
+  weight: 100
